@@ -22,10 +22,25 @@ dsh-word-skill/
 |           |   |-- word_audit.py       通用版文档审计器（标题层级、编号、直接格式覆盖、字体使用）
 |           |   `-- table_geometry.py   通用版表格几何辅助（tblW/tblGrid/tcW 同步写精确列宽）
 |           |-- examples/
-|           |   |-- read_content.py     读取并转储段落、表格、页眉页脚、节几何
-|           |   |-- edit_content.py     跨 run 和表格单元格的精确查找替换
-|           |   |-- edit_tables.py      按内容权重设置列宽、单元格边距和可见边框
-|           |   `-- tracked_changes.py  通过原始 OOXML 补丁添加修订标记
+|           |   |-- read_content.py         读取并转储段落、表格、页眉页脚、节几何
+|           |   |-- read_outline.py         打印标题大纲（缩进树）
+|           |   |-- read_formatting.py      转储 run 级格式（字体/字号/加粗/颜色）
+|           |   |-- search_docx.py          跨正文/表格/页眉页脚搜索
+|           |   |-- edit_content.py         跨 run 和表格单元格的精确查找替换
+|           |   |-- insert_content.py       插入标题/段落/分页符/图片/表格
+|           |   |-- edit_fonts.py           设置中西文字体、字号、加粗、颜色
+|           |   |-- edit_paragraph_format.py 设置对齐/间距/缩进/行距/样式
+|           |   |-- edit_styles.py          列出或重新指定段落样式
+|           |   |-- edit_tables.py          按内容权重设置列宽、单元格边距和可见边框
+|           |   |-- table_helpers.py        增行/合并单元格/重复表头/底纹对齐
+|           |   |-- set_page_setup.py       页面尺寸/方向/页边距
+|           |   |-- edit_headers_footers.py 设置页眉页脚与页码域
+|           |   |-- tracked_changes.py      通过 OOXML 补丁添加修订标记
+|           |   |-- add_hyperlink.py        通过 OOXML 添加超链接
+|           |   |-- add_comment.py          添加批注（python-docx >= 1.1）
+|           |   |-- merge_docx.py           合并多个文档
+|           |   |-- set_document_properties.py 读取/设置文档核心属性
+|           |   `-- extract_images.py       导出内嵌图片
 |           `-- references/
 |               `-- format-precision.md 格式精度检查清单（间距、边框、对齐、表格布局）
 ```
@@ -55,7 +70,7 @@ skill 会自动命中并按黄金路径执行：先读取掌握上下文，再�
 脚本与示例可直接在 Python 环境中运行（先安装依赖）：
 
 ```bash
-pip install python-docx lxml pdf2image
+pip install "python-docx>=1.1" lxml pdf2image
 
 # 渲染验证
 python3 .dsh/skills/word/scripts/render_docx.py input.docx --output_dir out/
@@ -66,6 +81,8 @@ python3 .dsh/skills/word/scripts/word_audit.py input.docx
 # 精确表格编辑
 python3 .dsh/skills/word/examples/edit_tables.py input.docx output.docx
 ```
+
+`examples/` 下的每个脚本都自带说明与命令行参数，可运行 `python3 examples/<name>.py --help` 查看用法，按功能分为：读取/检索（`read_*`、`search_*`）、内容编辑（`edit_content`、`insert_content`、`merge_docx`）、格式与样式（`edit_fonts`、`edit_paragraph_format`、`edit_styles`）、表格（`edit_tables`、`table_helpers`）、页面与页眉页脚（`set_page_setup`、`edit_headers_footers`）、高级 OOXML（`tracked_changes`、`add_hyperlink`、`add_comment`）以及元数据/资源（`set_document_properties`、`extract_images`）。
 
 渲染需要本机安装 [LibreOffice](https://www.libreoffice.org/)（或通过 `SOFFICE_BIN` 指定路径）。
 

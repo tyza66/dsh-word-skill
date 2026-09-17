@@ -22,10 +22,25 @@ dsh-word-skill/
 |           |   |-- word_audit.py       Generic document audit (heading hierarchy, numbering, overrides)
 |           |   `-- table_geometry.py   Generic table geometry (tblW/tblGrid/tcW exact widths)
 |           |-- examples/
-|           |   |-- read_content.py     Dump paragraphs, tables, headers/footers, section geometry
-|           |   |-- edit_content.py     Precise find-and-replace across runs and table cells
-|           |   |-- edit_tables.py      Set content-derived column weights, cell margins, borders
-|           |   `-- tracked_changes.py  Add a tracked replacement via raw OOXML patch
+|           |   |-- read_content.py         Dump paragraphs, tables, headers/footers, section geometry
+|           |   |-- read_outline.py         Print the heading outline (indented tree)
+|           |   |-- read_formatting.py      Dump run-level formatting (font/size/bold/color)
+|           |   |-- search_docx.py          Search body/tables/headers/footers
+|           |   |-- edit_content.py         Precise find-and-replace across runs and table cells
+|           |   |-- insert_content.py       Insert headings/paragraphs/page breaks/pictures/tables
+|           |   |-- edit_fonts.py           Set Latin + East Asian fonts, size, bold, color
+|           |   |-- edit_paragraph_format.py Set alignment/spacing/indent/line spacing/style
+|           |   |-- edit_styles.py          List or reassign paragraph styles
+|           |   |-- edit_tables.py          Set content-derived column weights, cell margins, borders
+|           |   |-- table_helpers.py        Add rows/merge cells/repeat header/shade cells
+|           |   |-- set_page_setup.py       Page size/orientation/margins
+|           |   |-- edit_headers_footers.py Set headers/footers and page-number field
+|           |   |-- tracked_changes.py      Add a tracked replacement via raw OOXML patch
+|           |   |-- add_hyperlink.py        Add a hyperlink via raw OOXML
+|           |   |-- add_comment.py          Add an anchored comment (python-docx >= 1.1)
+|           |   |-- merge_docx.py           Merge multiple documents
+|           |   |-- set_document_properties.py Read/set core document properties
+|           |   `-- extract_images.py       Export embedded images
 |           `-- references/
 |               `-- format-precision.md Formatting-accuracy checklist (spacing, borders, alignment, tables)
 ```
@@ -55,7 +70,7 @@ The skill activates automatically and follows the golden path: read for context,
 Scripts and examples run directly in a Python environment (install dependencies first):
 
 ```bash
-pip install python-docx lxml pdf2image
+pip install "python-docx>=1.1" lxml pdf2image
 
 # Render verification
 python3 .dsh/skills/word/scripts/render_docx.py input.docx --output_dir out/
@@ -66,6 +81,8 @@ python3 .dsh/skills/word/scripts/word_audit.py input.docx
 # Precise table editing
 python3 .dsh/skills/word/examples/edit_tables.py input.docx output.docx
 ```
+
+Every script under `examples/` is self-documented — run `python3 examples/<name>.py --help` for its arguments. They are grouped by function: reading/searching (`read_*`, `search_*`), content editing (`edit_content`, `insert_content`, `merge_docx`), formatting & styles (`edit_fonts`, `edit_paragraph_format`, `edit_styles`), tables (`edit_tables`, `table_helpers`), page & headers/footers (`set_page_setup`, `edit_headers_footers`), advanced OOXML (`tracked_changes`, `add_hyperlink`, `add_comment`), and metadata/assets (`set_document_properties`, `extract_images`).
 
 Rendering requires [LibreOffice](https://www.libreoffice.org/) (or set `SOFFICE_BIN`).
 

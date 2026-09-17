@@ -19,10 +19,10 @@ Work is done with Python through the `bash` tool — there is no separate "docum
 Required Python packages for editing and rendering:
 
 ```bash
-python3 -m pip install python-docx lxml pdf2image
+python3 -m pip install "python-docx>=1.1" lxml pdf2image
 ```
 
-- `python-docx` — paragraphs, runs, styles, tables, headers/footers.
+- `python-docx` (>= 1.1, for the native comment API) — paragraphs, runs, styles, tables, headers/footers, comments.
 - `lxml` — raw OOXML patches (tracked changes, comments, hyperlinks, fields).
 - `pdf2image` + `Pillow` — rasterizing the rendered PDF into `page-<N>.png`.
 
@@ -59,12 +59,47 @@ Scripts:
 - `scripts/word_audit.py` — report heading level jumps, numbering without Heading styles, direct run-level formatting overrides, and font usage.
 - `scripts/table_geometry.py` — write exact column widths to `tblW`, `tblGrid`, and every `tcW` so Word, LibreOffice, and Google Docs render the table identically.
 
-Examples (each runnable as `python3 examples/<name>.py input.docx output.docx`):
+Examples (each is runnable on its own — run `python3 examples/<name>.py --help` for the exact arguments):
+
+**Reading and inspection**
 
 - `examples/read_content.py` — dump paragraphs, tables, headers/footers, and section geometry.
+- `examples/read_outline.py` — print the heading outline as an indented tree (structure / TOC view).
+- `examples/read_formatting.py` — dump run-level formatting (font, East Asian font, size, bold/color) to diagnose visual drift.
+- `examples/search_docx.py` — search a term across body, tables, headers, and footers with context.
+
+**Content editing**
+
 - `examples/edit_content.py` — find-and-replace across runs and table cells, preserving style.
-- `examples/edit_tables.py` — set content-derived column weights, cell margins, and visible borders on a table.
-- `examples/tracked_changes.py` — add a tracked replacement via raw OOXML for cases `python-docx` cannot express.
+- `examples/insert_content.py` — insert headings, paragraphs, page breaks, pictures, and tables (at the end or before a match).
+- `examples/merge_docx.py` — merge multiple documents by appending body content.
+
+**Formatting and styles**
+
+- `examples/edit_fonts.py` — set Latin + East Asian (CJK) fonts, size, bold/italic, and color on runs.
+- `examples/edit_paragraph_format.py` — set alignment, spacing, indentation, line spacing, and style per paragraph.
+- `examples/edit_styles.py` — list styles, or (re)assign paragraph styles (e.g. map text onto Heading styles for a working TOC).
+
+**Tables**
+
+- `examples/edit_tables.py` — set content-derived column widths, cell margins, and visible borders.
+- `examples/table_helpers.py` — add rows, merge cells, repeat header row, shade and align cells.
+
+**Page setup, headers and footers**
+
+- `examples/set_page_setup.py` — page size, orientation, and margins.
+- `examples/edit_headers_footers.py` — set header/footer text and insert a live page-number field.
+
+**Advanced (OOXML / native APIs)**
+
+- `examples/tracked_changes.py` — add a tracked replacement (`w:ins`) via raw OOXML.
+- `examples/add_hyperlink.py` — add a clickable hyperlink via raw OOXML.
+- `examples/add_comment.py` — add an anchored comment via `Document.add_comment` (python-docx >= 1.1).
+
+**Document metadata and assets**
+
+- `examples/set_document_properties.py` — read or set core properties (title, author, subject, keywords).
+- `examples/extract_images.py` — export every embedded image to a directory.
 
 ## Final response
 

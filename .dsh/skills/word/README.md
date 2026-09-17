@@ -17,14 +17,31 @@ word/
 |   |-- render_docx.py           通用版 DOCX 渲染器（LibreOffice headless，输出 page-N.png）
 |   |-- word_audit.py            通用版文档审计器（标题层级、编号、直接格式覆盖、字体使用）
 |   `-- table_geometry.py        通用版表格几何辅助（tblW/tblGrid/tcW 同步写精确列宽）
-|-- examples/
-|   |-- read_content.py          读取并转储段落、表格、页眉页脚、节几何
-|   |-- edit_content.py          跨 run 和表格单元格的精确查找替换
-|   |-- edit_tables.py           按内容权重设置列宽、单元格边距和可见边框
-|   `-- tracked_changes.py       通过原始 OOXML 补丁添加修订标记
+|-- examples/                     19 个可运行示例，覆盖读取/检索、内容编辑、格式样式、表格、页面页眉页脚、OOXML 高级操作、元数据与资源
+|   |-- read_content.py           读取并转储段落、表格、页眉页脚、节几何
+|   |-- read_outline.py           打印标题大纲（缩进树）
+|   |-- read_formatting.py        转储 run 级格式（字体/字号/加粗/颜色）
+|   |-- search_docx.py            跨正文/表格/页眉页脚搜索
+|   |-- edit_content.py           跨 run 和表格单元格的精确查找替换
+|   |-- insert_content.py         插入标题/段落/分页符/图片/表格
+|   |-- edit_fonts.py             设置中西文字体、字号、加粗、颜色
+|   |-- edit_paragraph_format.py  设置对齐/间距/缩进/行距/样式
+|   |-- edit_styles.py            列出或重新指定段落样式
+|   |-- edit_tables.py            按内容权重设置列宽、单元格边距和可见边框
+|   |-- table_helpers.py          增行/合并单元格/重复表头/底纹对齐
+|   |-- set_page_setup.py         页面尺寸/方向/页边距
+|   |-- edit_headers_footers.py   设置页眉页脚与页码域
+|   |-- tracked_changes.py        通过 OOXML 补丁添加修订标记
+|   |-- add_hyperlink.py          通过 OOXML 添加超链接
+|   |-- add_comment.py            添加批注（python-docx >= 1.1）
+|   |-- merge_docx.py             合并多个文档
+|   |-- set_document_properties.py 读取/设置文档核心属性
+|   `-- extract_images.py         导出内嵌图片
 `-- references/
     `-- format-precision.md      格式精度检查清单（间距、边框、对齐、表格布局）
 ```
+
+完整的示例说明见项目根目录 `README.md`。
 
 ## 工作原理
 
@@ -40,7 +57,7 @@ word/
 
 skill 会自动命中并按黄金路径执行：先读取掌握上下文，再编辑，然后渲染为 PNG 逐页检查，循环至无缺陷后交付最终 `.docx`。
 
-脚本与示例可直接在 Python 环境中运行（先 `pip install python-docx lxml pdf2image`）：
+脚本与示例可直接在 Python 环境中运行（先 `pip install "python-docx>=1.1" lxml pdf2image`）：
 
 ```bash
 # 渲染验证

@@ -88,7 +88,7 @@ def main() -> None:
     numbered_non_heading: list[str] = []
     direct_overrides: list[str] = []
     font_names: Counter[str] = Counter()
-    font_sizes: Counter[str] = Counter()
+    font_sizes: Counter[float] = Counter()
 
     last_h: int | None = None
 
@@ -112,7 +112,7 @@ def main() -> None:
             if run.font.name:
                 font_names[run.font.name] += 1
             if run.font.size:
-                font_sizes[str(run.font.size)] += 1
+                font_sizes[round(run.font.size.pt, 1)] += 1
 
     print("HEADING STYLE COUNTS")
     if not h_counts:
@@ -142,7 +142,7 @@ def main() -> None:
     for name, count in font_names.most_common(20):
         print(f"- {name}: {count} runs")
     for size, count in font_sizes.most_common(10):
-        print(f"- {size.pt}pt: {count} runs")
+        print(f"- {size}pt: {count} runs")
 
 
 if __name__ == "__main__":
